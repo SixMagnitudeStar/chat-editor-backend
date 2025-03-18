@@ -28,4 +28,29 @@ router.get('/generate-story', async (req, res) => {
   }
 });
 
+router.get('/getCode', async(req, res)=> {
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const message = req.query.message;
+  console.log('呼叫成功');
+  if (message){
+    try{
+      console.log('訊息參數完整');
+      //使用生成模型產生內容
+      const result = await model.generateContent(message);
+      const response = await result.response;
+
+      const text = await response.text();
+
+      res.json({ generatedText: text});
+
+    }catch(error){
+      //
+      console.error("Error generating content:", error);
+      res.status(500).json({message: 'Error generating content from Google Generative AI' });
+    }
+  }
+
+
+})
+
 module.exports = router;

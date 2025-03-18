@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var apiRouter = requite('/.routes/api'); // 引入你創建的 api.js
+var apiRouter = require('./routes/api'); // 引入你創建的 api.js
 
 var app = express();
 
@@ -41,3 +41,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+console.log('測試');
