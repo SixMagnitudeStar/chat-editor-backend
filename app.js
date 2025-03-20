@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+const cors = require('cors');  // 引入 cors 模組
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -9,6 +10,7 @@ var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api'); // 引入你創建的 api.js
 
 var app = express();
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,4 +43,8 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
+
 console.log('測試');
+
