@@ -109,7 +109,7 @@ router.get('/generate-story', async (req, res) => {
 
 router.get('/getCode', async(req, res)=> {
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-  const message = "以下回應給我純Code就好，不要包含說明文字" + req.query.message;
+  const message = "回覆請遵守幾點：1. 以下回應給我能顯示在html的iframe標籤中的html文本就好，可以包含style和script，但不要包含說明文字。2. 給我可以鑲入code或是iframe.srcdoc屬性中的純html，不要包含反引號markdown。3. 如果我說背景要什麼圖片，直接用網路上公開的圖片網址作為背景圖片網址" + req.query.message;
   console.log('呼叫成功');
   if (message){
     try{
