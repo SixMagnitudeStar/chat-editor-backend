@@ -109,7 +109,13 @@ router.get('/generate-story', async (req, res) => {
 
 router.get('/getCode', async(req, res)=> {
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-  const message = "回覆請遵守幾點：1. 以下回應給我能顯示在html的iframe標籤中的html文本就好，可以包含style和script，但不要包含說明文字。2. 給我可以鑲入code或是iframe.srcdoc屬性中的純html，不要包含反引號markdown。3. 如果我說背景要什麼圖片，直接用網路上公開的圖片網址作為背景圖片網址" + req.query.message;
+  const message = "請求內容是為了得到可以正確顯示網頁的html文本。回覆請遵守幾點："
+                + "1. 以下回應給我能顯示在html的iframe標籤中的html文本就好，可以包含style和script，但不要包含說明文字。"
+                + "2. 給我可以鑲入code或是iframe.srcdoc屬性中的純html，不要包含反引號markdown。"
+                + "3. 如果我說背景要什麼圖片，直接用網路上公開的圖片網址作為背景圖片網址"
+                + "4. 回傳字串內容以<!DOCTYPE html>開頭，/html>\n\n結尾"
+                + "以下是想要的網頁內容:"
+                + req.query.message;
   console.log('呼叫成功');
   if (message){
     try{
@@ -118,9 +124,19 @@ router.get('/getCode', async(req, res)=> {
       const result = await model.generateContent(message);
       const response = await result.response;
 
-      const text = await response.text();
+      // const text = await response.text();
 
-      res.json({ generatedText: text});
+      const rawText = await response.text();
+   
+
+      // const cleanhtml = text.replace(/^```html\n|```$/g, "");
+   //   const cleanHtml = text.replace(/^```html\s*/, "").replace(/\s*```$/, "");
+      let cleanText = rawText.replace(/`/g, ""); 
+      cleanText = cleanText.replace(/html\n/, "");
+
+
+      res.json({ generatedText: cleanText});
+      console.log(cleanText);
 
     }catch(error){
       //
