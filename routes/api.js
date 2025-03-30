@@ -131,9 +131,8 @@ router.get('/getCode', async(req, res)=> {
 
       // const cleanhtml = text.replace(/^```html\n|```$/g, "");
    //   const cleanHtml = text.replace(/^```html\s*/, "").replace(/\s*```$/, "");
-      let cleanText = rawText.replace(/`/g, ""); 
-      cleanText = cleanText.replace(/html\n/, "");
-
+      let cleanText = rawText.replace(/`/g, ""); //移除所有反引號
+      cleanText = cleanText.replace(/html\n/, "");//移除開頭的html\n/字串，讓回傳值符合<html>開頭</html>結尾
 
       res.json({ generatedText: cleanText});
       console.log(cleanText);
