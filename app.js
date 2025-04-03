@@ -1,3 +1,5 @@
+
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 const cors = require('cors');  // 引入 cors 模組
